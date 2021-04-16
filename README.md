@@ -5,6 +5,7 @@ Simple cipher implemented using Python, with server FastAPI, and containerized b
 * Technologies
 * Setup
 * Using
+* How to use it
 
 ## General info
 The goal of this project was to implement any cipher using Python.
@@ -107,11 +108,31 @@ $ sudo docker-compose up --build
 $ docker run -d --name mycontainer -p 80:80 myimage
 ```
 
+## Code Examples
+
+Before:
+
+Give me a chance, and see if I am able to encode your text
+
+After: v:G6O>6O2O492?46[O2?5OD66O:7OxO2>O23=6OE@O6?4@56OJ@FCOE6IE
+
+
+
+
 ##END
 This is it, all steps to run our application.
 
+##Author
+
 I hope you have fun with it, if you want to send me any advices or questions send it here:
+
 mr.rafalwilk@gmail.com
+
+My website:
+wilkrafal.work
+
+LinkedIn:
+https://www.linkedin.com/in/wilk-rafa%C5%82-964ba8206/
 
 
 
