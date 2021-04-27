@@ -1,27 +1,11 @@
-# import sys
 import click
 
-#
-# @click.command()
-# @click.option('-option', help='Choose encode or decode')
-# @click.option('-message', help='Message or file you want to cipher')
 
-@click.command()
-@click.option('-option', help='Choose encode or decode')
-@click.option('-message', help='Message or file you want to cipher')
-class Configuration:
+class Rot:
 
     def __init__(self, option, message):
-        self.message = option
-        self.option = message
-
-
-class Rot(Configuration):
-
-    def __init__(self, message, option):
-        super(Rot, self).__init__(message, option)
-        # self.message = ''
-        # self.choice = ''
+        self.message = message
+        self.choice = option
         self.encoded_message = ""
         self.decoded_message = ""
         self.key = 47
@@ -39,8 +23,7 @@ class Rot(Configuration):
                 self.number = (self.number - 126) + 32
             self.encoded_message += chr(self.number)
 
-        print(self.encoded_message)
-        # click.echo(self.encoded_message)
+        return self.encoded_message
 
     def decode(self):
         for x in self.message:
@@ -50,9 +33,53 @@ class Rot(Configuration):
                 self.number = 126 - (32 - self.number)
             self.decoded_message += chr(self.number)
 
-        print(self.decoded_message)
-        # click.echo(self.decoded_message)
+        return self.decoded_message
 
 
-config = Configuration()
-game = Rot(config)
+class FileOperator:
+
+    cipher_text = ''
+
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.read_list = ''
+
+    def read_file(self):
+        with open(self.file_name, 'r') as f:
+            read_list = f.read()
+        return read_list
+
+    def save_file(self, cipher_text):
+        with open(self.file_name, 'w') as f:
+            f.write(cipher_text)
+        return self.file_name
+
+
+@click.command()
+@click.argument('option')
+@click.argument('message')
+def configuration(option, message):
+    game = Rot(option, message)
+    if message.endswith('.txt'):
+        game_file = FileOperator(message)
+        new_message = game_file.read_file()
+        game_2 = Rot(option, new_message)
+
+        if option.startswith('en'):
+            cipher_message = game_2.encode()
+            game_file.save_file(cipher_message)
+        elif option.startswith('de'):
+            cipher_message = game_2.decode()
+            game_file.save_file(cipher_message)
+    else:
+        if option.startswith('en'):
+            print(game.encode())
+        elif option.startswith('de'):
+            print(game.decode())
+        else:
+            print('You wrote sth wrong...')
+
+
+if __name__ == '__main__':
+    configuration()
+
